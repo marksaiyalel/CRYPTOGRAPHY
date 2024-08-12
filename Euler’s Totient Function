@@ -1,0 +1,51 @@
+import random
+from sympy import isprime
+
+# Lab 1: Key Generation Algorithm Using Prime Numbers
+class KeyGenerator:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+    def generate_prime(self):
+        while True:
+            num = random.randint(self.start, self.end)
+            if isprime(num):
+                return num
+
+    def generate_keys(self):
+        p = self.generate_prime()
+        q = self.generate_prime()
+        while q == p:
+            q = self.generate_prime()
+        return p, q
+
+# Lab 2: Euler’s Totient Function
+class EulerTotient:
+    @staticmethod
+    def gcd(a, b):
+        while b:
+            a, b = b, a % b
+        return a
+
+    @staticmethod
+    def euler_totient(n):
+        count = 0
+        for i in range(1, n + 1):
+            if EulerTotient.gcd(n, i) == 1:
+                count += 1
+        return count
+
+# Extending KeyGenerator for Euler's Totient Function calculation
+class ExtendedKeyGenerator(KeyGenerator):
+    def calculate_totient(self, p, q):
+        n = p * q
+        phi_n = EulerTotient.euler_totient(n)
+        return n, phi_n
+
+
+extended_key_gen = ExtendedKeyGenerator(100, 300)
+p, q = extended_key_gen.generate_keys()
+n, phi_n = extended_key_gen.calculate_totient(p, q)
+print(f"Prime numbers p and q are: {p} and {q}")
+print(f"Euler's Totient function value for n={n} is: {phi_n}")
