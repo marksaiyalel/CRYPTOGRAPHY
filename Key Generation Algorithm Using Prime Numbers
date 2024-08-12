@@ -1,0 +1,25 @@
+import random
+from sympy import isprime
+
+class KeyGenerator:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+    def generate_prime(self):
+        while True:
+            num = random.randint(self.start, self.end)
+            if isprime(num):
+                return num
+
+    def generate_keys(self):
+        p = self.generate_prime()
+        q = self.generate_prime()
+        while q == p:
+            q = self.generate_prime()
+        return p, q
+
+# Example usage
+key_gen = KeyGenerator(100, 300)
+p, q = key_gen.generate_keys()
+print(f"Prime numbers p and q are: {p} and {q}")
