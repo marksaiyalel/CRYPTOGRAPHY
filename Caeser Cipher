@@ -1,0 +1,28 @@
+def shift_cipher_encode(message, shift_value):
+    encoded_result = []
+
+    for character in message:
+        if character.isalpha():
+            base_char = 'a' if character.islower() else 'A'
+            encoded_result.append(chr((ord(character) - ord(base_char) + shift_value) % 26 + ord(base_char)))
+        else:
+            encoded_result.append(character)
+
+    return ''.join(encoded_result)
+
+def shift_cipher_decode(cipher, shift_value):
+    return shift_cipher_encode(cipher, 26 - shift_value)
+
+# User input for the original message
+original_message = input("Enter the original message: ")
+
+# User input for the shift value
+shift_value = int(input("Enter the shift value: "))
+
+# Encrypt the original message
+cipher_text = shift_cipher_encode(original_message, shift_value)
+print("Ciphered message:", cipher_text)
+
+# Decrypt the ciphered message
+decoded_message = shift_cipher_decode(cipher_text, shift_value)
+print("Decoded message:", decoded_message)
